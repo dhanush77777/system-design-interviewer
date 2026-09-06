@@ -1,0 +1,146 @@
+@import "tailwindcss";
+
+:root {
+  --bg: #07080c;
+  --panel: rgba(16, 18, 26, 0.78);
+  --line: rgba(255, 255, 255, 0.08);
+  --gold: #e8c07a;
+  --mint: #7ee0c6;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  background:
+    radial-gradient(1200px 600px at 10% -10%, rgba(232, 192, 122, 0.12), transparent 50%),
+    radial-gradient(900px 500px at 100% 0%, rgba(126, 224, 198, 0.08), transparent 45%),
+    var(--bg);
+  color: #ece8df;
+  font-family: "IBM Plex Sans", system-ui, sans-serif;
+}
+
+.serif {
+  font-family: "Instrument Serif", Georgia, serif;
+}
+
+.mono {
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+}
+
+.glass {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  backdrop-filter: blur(18px);
+}
+
+.grid-bg {
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
+.board-tool { display: inline-flex; align-items: center; gap: .3rem; border: 1px solid rgba(255,255,255,.1); border-radius: .45rem; padding: .3rem .45rem; font-size: .68rem; color: rgba(255,255,255,.66); transition: background 120ms ease, color 120ms ease; }
+.board-tool:hover:not(:disabled) { background: rgba(255,255,255,.08); color: white; }
+.board-tool:disabled { cursor: not-allowed; opacity: .35; }
+.board-palette { display: flex; width: 100%; align-items: center; gap: .35rem; border-radius: .4rem; padding: .32rem .4rem; text-align: left; font-size: .65rem; color: rgba(255,255,255,.62); }
+.board-palette:hover { background: rgba(255,255,255,.07); color: white; }
+.board-input { display: block; box-sizing: border-box; width: 100%; border: 1px solid rgba(255,255,255,.1); border-radius: .4rem; background: rgba(0,0,0,.2); padding: .35rem .45rem; font-size: .7rem; line-height: 1rem; color: rgba(255,255,255,.85); outline: none; }
+.board-input:focus { border-color: rgba(126,224,198,.7); }
+
+/* Connection ports make the direction of a service flow visible at a glance. */
+#arch-canvas > button.z-20::before,
+#arch-canvas > button.z-20::after {
+  position: absolute;
+  top: 50%;
+  width: 9px;
+  height: 9px;
+  content: "";
+  transform: translateY(-50%);
+  border: 2px solid #11141c;
+  border-radius: 999px;
+  background: var(--mint);
+  box-shadow: 0 0 0 1px rgba(126, 224, 198, .45);
+}
+
+#arch-canvas > button.z-20::before { left: -6px; background: #151923; }
+#arch-canvas > button.z-20::after { right: -6px; }
+
+#arch-canvas > button.z-20:hover::after {
+  box-shadow: 0 0 0 3px rgba(126, 224, 198, .22);
+}
+
+/* Familiar infrastructure notation: cards are reserved for compute; data and
+   messaging primitives use recognisably different silhouettes. */
+#arch-canvas > button.z-20[data-type="client"] {
+  border-radius: 999px;
+  background: linear-gradient(135deg, rgba(24, 45, 45, .97), rgba(12, 14, 20, .97)) !important;
+}
+
+#arch-canvas > button.z-20[data-type="dns"],
+#arch-canvas > button.z-20[data-type="third_party"] {
+  border-radius: 4px;
+  border-style: dashed;
+}
+
+#arch-canvas > button.z-20[data-type="cdn"],
+#arch-canvas > button.z-20[data-type="api"],
+#arch-canvas > button.z-20[data-type="svc"],
+#arch-canvas > button.z-20[data-type="worker"],
+#arch-canvas > button.z-20[data-type="function"] {
+  border-radius: 7px;
+}
+
+#arch-canvas > button.z-20[data-type="lb"] {
+  clip-path: polygon(10% 0, 100% 0, 90% 100%, 0 100%);
+  border-radius: 0;
+}
+
+#arch-canvas > button.z-20[data-type="waf"] {
+  clip-path: polygon(50% 0, 100% 22%, 86% 100%, 14% 100%, 0 22%);
+  border-radius: 0;
+}
+
+#arch-canvas > button.z-20[data-type="db"],
+#arch-canvas > button.z-20[data-type="nosql"],
+#arch-canvas > button.z-20[data-type="warehouse"] {
+  border-radius: 50% / 18%;
+  box-shadow: inset 0 8px 0 rgba(255,255,255,.055), inset 0 -8px 0 rgba(0,0,0,.18), 0 10px 20px rgba(0,0,0,.3);
+}
+
+#arch-canvas > button.z-20[data-type="cache"] {
+  border-radius: 999px;
+  background: linear-gradient(90deg, rgba(62, 20, 48, .96), rgba(12, 14, 20, .96)) !important;
+}
+
+#arch-canvas > button.z-20[data-type="search"] {
+  clip-path: polygon(12% 0, 88% 0, 100% 22%, 100% 78%, 88% 100%, 12% 100%, 0 78%, 0 22%);
+  border-radius: 0;
+}
+
+#arch-canvas > button.z-20[data-type="obj"] {
+  clip-path: polygon(25% 0, 75% 0, 100% 50%, 75% 100%, 25% 100%, 0 50%);
+  border-radius: 0;
+}
+
+#arch-canvas > button.z-20[data-type="queue"],
+#arch-canvas > button.z-20[data-type="stream"] {
+  clip-path: polygon(0 18%, 10% 0, 90% 0, 100% 18%, 100% 82%, 90% 100%, 10% 100%, 0 82%);
+  border-radius: 0;
+  background: linear-gradient(135deg, rgba(10, 51, 61, .96), rgba(12, 14, 20, .96)) !important;
+}
+
+#arch-canvas > button.z-20[data-type="notify"] {
+  clip-path: polygon(50% 0, 100% 42%, 82% 100%, 18% 100%, 0 42%);
+  border-radius: 0;
+}
+
+@keyframes pulse-ring {
+  0% { transform: scale(0.85); opacity: 0.7; }
+  100% { transform: scale(1.35); opacity: 0; }
+}
