@@ -4,7 +4,7 @@ services:
     runtime: python
     region: singapore
     plan: free
-    buildCommand: cd frontend && npm ci && npm run build && cd .. && python -m pip install -r backend/requirements.txt
+    buildCommand: python --version && cd frontend && npm ci && npm run build && cd .. && python -m pip install -r backend/requirements.txt
     startCommand: PYTHONPATH=backend python -m uvicorn app.main:app --host 0.0.0.0 --port $PORT
     healthCheckPath: /api/health
     autoDeploy: true
